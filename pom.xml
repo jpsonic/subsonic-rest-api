@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.tesshu.jpsonic</groupId>
+  <artifactId>subsonic-rest-api</artifactId>
+  <version>1.0.0</version>
+  <name>Subsonic REST API</name>
+
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.tesshu.jpsonic</groupId>
+        <artifactId>jpsonic-dependencies</artifactId>
+        <version>115.0.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>4.0.0</version>
+        <configuration>
+          <indentSize>8</indentSize>
+          <predefinedSortOrder>custom_1</predefinedSortOrder>
+          <lineSeparator>\n</lineSeparator>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <sortProperties>true</sortProperties>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-xjc-plugin</artifactId>
+        <version>4.2.0</version>
+        <configuration>
+          <sourceRoot>${project.build.directory}/generated-sources/src/main/java</sourceRoot>
+          <xsdOptions>
+            <xsdOption>
+              <xsd>${basedir}/src/main/resources/subsonic-rest-api.xsd</xsd>
+              <packagename>org.subsonic.restapi</packagename>
+            </xsdOption>
+          </xsdOptions>
+        </configuration>
+        <executions>
+          <execution>
+            <id>xjc</id>
+            <goals>
+              <goal>xsdtojava</goal>
+            </goals>
+            <phase>generate-sources</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>jpsonic-packages-repo</id>
+      <name>Jpsonic Packages Repository</name>
+      <url>https://maven.pkg.github.com/jpsonic/jpsonic-dependencies</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>jpsonic-packages-repo</id>
+      <name>Jpsonic Packages Repository</name>
+      <url>https://maven.pkg.github.com/jpsonic/subsonic-rest-api</url>
+    </repository>
+  </distributionManagement>
+
+</project>
